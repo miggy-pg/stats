@@ -4,7 +4,6 @@ import { CarVehicles } from "./CarVehicles";
 
 type Point = [number, number];
 
-// City,Model Year,Make,Model,Electric Vehicle Type,Electric Range,DOL Vehicle ID,Vehicle Location
 type VehicleData = [
   string,
   Date,
@@ -46,3 +45,4 @@ export class CSVFileReader {
       });
   }
 }
+// City,Model Year,Make,Model,Electric Vehicle Type,Electric Range,DOL Vehicle ID,Vehicle Location
