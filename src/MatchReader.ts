@@ -1,18 +1,7 @@
 import { yearToDate } from "./utils";
 import { CarVehicles } from "./CarVehicles";
-
-type Point = [number, number];
-
-type VehicleData = [
-  string,
-  Date,
-  string,
-  string,
-  string,
-  number,
-  number,
-  Point
-];
+import { VehicleData } from "./VehicleData";
+import { CSVFileReader } from "./CSVFileReader";
 
 interface DataReader {
   read(): void;
@@ -20,6 +9,9 @@ interface DataReader {
 }
 
 export class MatchReader {
+  static fromCSV(fileName: string): MatchReader {
+    return new MatchReader(new CSVFileReader(fileName));
+  }
   matches: VehicleData[] = [];
   constructor(public reader: DataReader) {}
 
