@@ -27,6 +27,108 @@ holdNumber.data = 123;
 const holdstring = new HoldString<string>();
 holdString.data = 'abcdfeg'
 
+// Another Example
+
+// Repeating a function but has the same logic but different type (not ideal)
+
+class ArrayOfNumber {
+  constructor(public collection: number[]){}
+
+  get(index: number): number {
+    return this.collection[index]
+  }
+}
+
+class ArrayOfStrings {
+  constructor(public collection: string[]){}
+
+  get(index: number): string {
+    return this.collection[index]
+  }
+}
+
+// Use Generics
+class ArrayOfAnytrhing<T> {
+
+  constructor(public collection: T[]){}
+
+  get(index: number): T{
+    return this.collection[index]
+  }
+}
+
+new ArrayOfAnything<string>(["a","b","c"]);    // if we remove '<string>' or '<number>'', the class will still work because of type 'inference'
+new ArrayOfAnything<number>([1,2,3]);
+
+```
+
+#### Example of generics with functions
+
+```javascript
+// Notice that these two functions has the same logic but different type 'string' and 'number' array
+function arrayWithNumbers(arr: number[]): void {
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+  }
+}
+
+function arrayWithStrings(arr: string[]): void {
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+  }
+}
+
+// To avoid repeated code, lets use generics
+function arrayWithAnything<T>(arr: T[]): void {
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+  }
+}
+
+arrayWithAnything < string > ["a", "b", "c"];
+arrayWithAnything < number > [1, 2, 3];
+```
+
+#### Generic Constraints
+
+```javascript
+// The objective is to call 'Car' and 'House' and use 'print' function
+class Car {
+  print() {
+    console.log("I am a car");
+  }
+}
+
+class House {
+  print() {
+    console.log("I am a house");
+  }
+}
+// The issue?
+// If our function 'printHousesOrCars([1,2,3,4])' passes an arguments that are number, this don't have a 'print' method on it.
+
+// To fix?
+// Lets use 'interface' to ensure that our arguments contains a 'print' function that returns nothing('void')
+
+interface Printable {
+  print(): void;
+}
+
+// What happen on 'T extends Printable'?
+// This is telling that what we have in type 'T' will have all the properties that we defined in 'Printable'
+function printHousesOrCars<T extends Printable>(arr: T[]): void {
+  for (let i = 0; i < arr.length; i++) {
+    arr[i].print();
+  }
+}
+
+// Will work because it satisfies the 'Printable' interface
+printHousesOrCars<House>([new House(), new House()])
+printHousesOrCars<Car>([new Car(), new Car()])
+
+// Will not work because this argument doesn't satisfy that 'Printable' interface which should have a 'print()' function
+printHousesOrCars([1,2,3,4])
+
 ```
 
 ## Inheritance vs Composition
